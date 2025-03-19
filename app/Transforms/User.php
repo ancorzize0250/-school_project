@@ -3,10 +3,12 @@
 namespace App\Transforms;
 
 use DateTime;
-use soft\starter\Transforms\Saveable;
-use soft\starter\Transforms\Transform;
+
+
 use App\Transforms\Commons\Active;
 use Soft\Starter\Supports\Selectable;
+use Soft\Starter\Transforms\Transform;
+use Soft\Starter\Transforms\Saveable;
 use Soft\Starter\Transforms\Select;
 
 class User extends Transform implements Saveable, Selectable
@@ -119,7 +121,7 @@ class User extends Transform implements Saveable, Selectable
     {
         return [
             'user' => $this->getUser(),
-            'name' => $this->getEmail(),
+            'email' => $this->getEmail(),
             'password' => $this->getPassword(),
             'active' => $this->isActive()
         ];
@@ -145,8 +147,8 @@ class User extends Transform implements Saveable, Selectable
     {
         return [
             ...parent::toArray(),
-            'url' => $this->getUser(),
-            'name' => $this->getEmail(),
+            'user' => $this->getUser(),
+            'email' => $this->getEmail(),
             'password' => $this->getPassword(),
             'active' => $this->isActive(),
         ];

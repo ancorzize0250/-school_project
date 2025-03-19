@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\User as Model;
 use Facade\FlareClient\Report;
 use Illuminate\Database\Eloquent\Collection;
-use Soft\Starter\Support\Repository as SupportRepository;
+use Soft\Starter\Supports\Repository as SupportRepository;
 
 /**
  * Manejo general de los servidores o DNS.

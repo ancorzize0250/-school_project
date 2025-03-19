@@ -3,7 +3,8 @@ namespace App\Services;
 
 use App\Models\User as Model;
 use App\Transforms\User as Transform;
-use Soft\starter\Support\Service;
+use Soft\Starter\Supports\Service;
+use Illuminate\Support\Collection;
 
 /**
  * Servicio que maneja los grupos de fuentes de datos
@@ -31,20 +32,39 @@ class UserService implements Service
      */
     public function save($transform): Transform
     {
-        return $this->transform($this->userRepository->save($transform));
+        $s = $this->userRepository->save($transform);
+        return $this->transform($s);
     }
 
-    public function findAll()
+    /**
+     * {@inheritdoc}
+     */
+    public function findAll(?bool $active = null): Collection
     {
-
+        return $this->userRepository->findAll()
+            ->map(fn ($model) => $this->transform($model));
     }
-    public function select()
-    {
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function select(): Collection
+    {
+        return $this->userRepository->findAll()
+            ->map(fn ($model) => $this->transform($model)->toSelect());
     }
-    public function findById()
-    {
 
+    /**
+     * {@inheritdoc}
+     */
+    public function findById(int|string $id): ?Transform
+    {
+        $model = $this->userRepository->findById($id);
+        if (!is_null($model)) {
+            return $this->transform($model);
+        }
+        return null;
     }
     /**
      * @param Model $model

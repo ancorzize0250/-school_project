@@ -48,7 +48,8 @@ class UserController extends Controller
         return [
             'user' => 'required|string',
             'password' => 'required|string',
-            'email' => 'required|string'
+            'email' => 'required|string',
+            'active' => 'required|bool'
         ];
     }
 

@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Commons;
-use Soft\Starter\Controllers\RestController;
+
+
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Soft\Starter\Constant;
+use Mantum\Starter\Constant;
+use Soft\Starter\Controllers\RestController;
 use Soft\Starter\Exceptions\SoftException;
 /**
  * @template S
@@ -38,7 +40,7 @@ abstract class ViewController extends RestController
     {
         try {
             if (!is_numeric($id) || empty($id)) {
-                throw new MantumException(__(Constant::ERROR_GETTING), [
+                throw new SoftException(__(Constant::ERROR_GETTING), [
                     'General' => [
                         strval(__(Constant::IS_NUMERIC)),
                     ],
@@ -47,7 +49,7 @@ abstract class ViewController extends RestController
 
             $result = $this->service->findById(intval($id));
             if (is_null($result)) {
-                throw new MantumException(__(Constant::ERROR_GETTING), [
+                throw new SoftException(__(Constant::ERROR_GETTING), [
                     'General' => [
                         strval(__(Constant::NOT_FOUND)),
                     ],
