@@ -1,30 +1,30 @@
 <?php
 namespace App\Services;
 
-use App\Models\User as Model;
-use App\Transforms\User as Transform;
+use App\Models\Person as Model;
+use App\Transforms\Person as Transform;
 use Soft\Starter\Supports\Service;
 use Illuminate\Support\Collection;
 
 /**
- * servicio que maneja personas
+ * Servicio que maneja personas
  *
  * @author Luis Angel Cordoba
  * @implements Service<Transform>
  */
-class UserService implements Service
+class PersonService implements Service
 {
     /**
-     * @var UserRepository
+     * @var PersonRepository
      */
-    private UserRepository $userRepository;
+    private PersonRepository $personRepository;
 
     /**
-     * @param UserRepository $userRepository
+     * @param PersonRepository $personRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(PersonRepository $personRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->personRepository = $personRepository;
     }
 
     /**
@@ -32,7 +32,7 @@ class UserService implements Service
      */
     public function save($transform): Transform
     {
-        return $this->transform($this->userRepository->save($transform));
+        return $this->transform($this->personRepository->save($transform));
     }
 
     /**
@@ -40,7 +40,7 @@ class UserService implements Service
      */
     public function findAll(?bool $active = null): Collection
     {
-        return $this->userRepository->findAll()
+        return $this->personRepository->findAll()
             ->map(fn ($model) => $this->transform($model));
     }
 
@@ -50,7 +50,7 @@ class UserService implements Service
      */
     public function select(): Collection
     {
-        return $this->userRepository->findAll()
+        return $this->personRepository->findAll()
             ->map(fn ($model) => $this->transform($model)->toSelect());
     }
 
@@ -59,7 +59,7 @@ class UserService implements Service
      */
     public function findById(int|string $id): ?Transform
     {
-        $model = $this->userRepository->findById($id);
+        $model = $this->personRepository->findById($id);
         if (!is_null($model)) {
             return $this->transform($model);
         }
@@ -72,9 +72,12 @@ class UserService implements Service
     private function transform(Model $model): Transform
     {
         $transform = new Transform();
-        $transform->setUser($model['user']);
+        $transform->setIdentification($model['Identification']);
+        $transform->setNames($model['names']);
+        $transform->setSurnames($model['surnames']);
         $transform->setEmail($model['email']);
-        $transform->setPassword($model['password']);
+        $transform->setPhone($model['phone']);
+        $transform->setActive($model['active']);
         return $transform;
     }
 

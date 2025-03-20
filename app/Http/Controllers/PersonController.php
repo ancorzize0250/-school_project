@@ -2,28 +2,28 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Commons\Controller;
-use App\Services\UserService;
+use App\Services\PersonService;
 use Illuminate\Http\Request;
-use App\Transforms\User as Transform;
+use App\Transforms\Person as Transform;
 
-class UserController extends Controller
-{
+class PersonController extends Controller{
+
+     /**
+     * {@inheritdoc}
+     */
+    public $created = 'messages.The person has been created';
+
     /**
      * {@inheritdoc}
      */
-    public $created = 'messages.The user has been created';
+    public $updated = 'messages.The person has been updated';
 
     /**
-     * {@inheritdoc}
+     * @param PersonService $personService
      */
-    public $updated = 'messages.The user has been updated';
-
-    /**
-     * @param UserService $userService
-     */
-    public function __construct(UserService $userService)
+    public function __construct(PersonService $personService)
     {
-        parent::__construct($userService);
+        parent::__construct($personService);
     }
 
     /**
@@ -46,13 +46,14 @@ class UserController extends Controller
     public function rules(): array
     {
         return [
-            'user' => 'required|string|unique:user',
-            'password' => 'required|string|min:6',
-            'email' => 'required|string|email|unique:user',
+            'identification' => 'required|string|unique:persons',
+            'names' => 'required|string',
+            'surnames' => 'required|string',
+            'email' => 'required|email|string|unique:persons',
+            'phone' => 'integer|required',
             'active' => 'required|bool'
         ];
     }
-
 
 
 }
