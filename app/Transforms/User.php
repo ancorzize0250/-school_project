@@ -10,11 +10,11 @@ use Soft\Starter\Supports\Selectable;
 use Soft\Starter\Transforms\Transform;
 use Soft\Starter\Transforms\Saveable;
 use Soft\Starter\Transforms\Select;
-
+use Illuminate\Support\Facades\Hash;
 class User extends Transform implements Saveable, Selectable
 {
     use Active;
-
+  
     /**
      * @var string
      */
@@ -135,7 +135,7 @@ class User extends Transform implements Saveable, Selectable
         return [
             'user' => $this->getUser(),
             'email' => $this->getEmail(),
-            'password' => $this->getPassword(),
+            'password' => Hash::make($this->getPassword()),
             'active' => $this->isActive(),
         ];
     }

@@ -16,20 +16,25 @@ use App\Http\Controllers\PersonController;
 |
 */
 
-Route::controller(UserController::class)
-    ->prefix('user')
-    ->group(function() {
-        Route::get('/', 'list');
-        Route::get('/{detail}', 'detail');
-        Route::post('/','create');
-        Route::put('/{id}','update');
-    });
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-Route::controller(PersonController::class)
-    ->prefix('person')
-    ->group(function() {
-        Route::get('/', 'list');
-        Route::get('/{detail}', 'detail');
-        Route::post('/','create');
-        Route::put('/{id}','update');
-    });
+Route::middleware('auth:sanctum')->group(function () {
+    Route::controller(UserController::class)
+        ->prefix('user')
+        ->group(function() {
+            Route::get('/', 'list');
+            Route::get('/{detail}', 'detail');
+            Route::post('/','create');
+            Route::put('/{id}','update');
+        });
+
+    Route::controller(PersonController::class)
+        ->prefix('person')
+        ->group(function() {
+            Route::get('/', 'list');
+            Route::get('/{detail}', 'detail');
+            Route::post('/','create');
+            Route::put('/{id}','update');
+        });
+});

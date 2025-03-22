@@ -72,7 +72,8 @@ class PersonService implements Service
     private function transform(Model $model): Transform
     {
         $transform = new Transform();
-        $transform->setIdentification($model['Identification']);
+        $transform->setId($model['id']);
+        $transform->setIdentification($model['identification']);
         $transform->setNames($model['names']);
         $transform->setSurnames($model['surnames']);
         $transform->setEmail($model['email']);
